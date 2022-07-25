@@ -87,5 +87,6 @@ int main()
 
         free(palavra_recebida);
         close(client_sockfd);
+        memset(str_in, 0, sizeof str_in);
     }
 }

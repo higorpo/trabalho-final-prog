@@ -39,7 +39,9 @@ int main()
         strncpy(substring, &palavra_sem_criptografia[i * max_bytes], max_bytes);
         substring[max_bytes] = '\0';
 
-        strcpy(segmentos[i], substring);
+        strncpy(segmentos[i], substring, max_bytes);
+        printf("%d - Recebido da string %s\n\n\n", i, segmentos[i]);
+        memset(substring, 0, sizeof substring);
     }
 
     // Configurando socket
@@ -66,7 +68,7 @@ int main()
     // Enviando dados
     for (int i = 0; i < qtd_servers; i++)
     {
-        printf("Enviando dados para o servidor %d - %d\n", servers[i], i);
+        printf("Enviando dados para o servidor %d - %d | Dados: %s\n", servers[i], i, segmentos[i]);
         write(sockfd[i], segmentos[i], max_bytes);
     }
 
@@ -79,6 +81,7 @@ int main()
 
         strncat(palavra_criptografada, str_out, strlen(str_out));
         close(sockfd[i]);
+        memset(str_out, 0, sizeof str_out);
     }
 
     gettimeofday(&t2, NULL);
